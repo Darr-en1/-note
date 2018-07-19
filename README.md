@@ -4,7 +4,7 @@
 你好帅哦
 =====
 
-```git
+```javascript 
 var s = "javascript syntax highlighting";         
 alert(s);       
 ```
