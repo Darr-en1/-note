@@ -3,9 +3,9 @@
 
 你还哦啊
 =====
-
-    void main(){
-        printf("Hello, Markdown.");
-    }
-JAVA
+'''java
+void main(){
+    printf("Hello, Markdown.");
+}
+'''
 
