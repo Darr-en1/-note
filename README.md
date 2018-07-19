@@ -4,9 +4,9 @@
 你还哦啊
 =====
 
-    '''javascript     
+    ```javascript     
     var s = "javascript syntax highlighting";         
     alert(s);   
     }       
-    '''
+    ```
 
