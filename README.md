@@ -4,7 +4,6 @@
 你还哦啊
 =====
 
-    void main()       
-    {       
+    void main(){       
     printf("Hello, Markdown.");       
     }       
