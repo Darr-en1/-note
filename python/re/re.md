@@ -35,6 +35,10 @@ re.X	该标志通过给予你更灵活的格式以便你将正则表达式写得
 **功能：** 扫描整个字符串返回结果列表，匹配失败返回None<br>
 
 ### re.split  以匹配到的字符当做列表分隔符
+
+**原型:** split(pattern, string, maxsplit=0, flags=0)
+
+**参数：** maxsplitmaxsplit为最多被分割的字符串
 ```python
 str ="Darr_en1     is so cool"
 print(re.split(r' +',str))   #['Darr_en1', 'is', 'so', 'cool']
