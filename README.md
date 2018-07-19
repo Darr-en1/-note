@@ -7,3 +7,5 @@
     void main(){
         printf("Hello, Markdown.");
     }
+JAVA
+
