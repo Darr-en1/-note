@@ -2,7 +2,7 @@
 # re(正则表达式)
 ## 基本语法
 ### re.match
-**原型：**match(pattern,string,flags=0)<br>
+**原型:** match(pattern,string,flags=0)<br>
 <br>
 **参数：**
 patter:匹配的正则表达式<br>
