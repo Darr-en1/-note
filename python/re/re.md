@@ -20,13 +20,50 @@ re.U	根据Unicode字符集解析字符。这个标志影响 \w, \W, \b, \B.
 re.X	该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解。
 ```
 
-**功能：** 从头开始匹配，匹配失败返回None<br>
+**功能：** 从头开始匹配返回第一个匹配对象，匹配失败返回None<br>
+
+**Demo**:
+```python
+print(re.match('www', 'www.Darr_en1.com').group())   #www
+print(re.match('arr', 'www.Darr_en1.com').group())   #AttributeError: 'NoneType' object has no attribute 'group'
+```
 
 ### re.search 匹配包含
 
 **原型:** search(pattern,string,flags=0)<br>
 
-**功能：** 扫描整个字符串返回第一个匹配，匹配失败返回None<br>
+**功能：** 扫描整个字符串返回第一个匹配对象，匹配失败返回None<br>
+
+**Demo**:
+```python
+print(re.search('www', 'www.Darr_en1.com').group())  #www
+print(re.search('arr', 'www.Darr_en1.com').group())  #arr
+```
+
+### re.compile 预编译
+
+**原型:** compile(pattern,flags=0)<br>
+
+**功能：**  把正则表达式编译成一个正则对象
+
+#### 在看《python核心编程》（第3版）对于编译的说法，深有体会，以下摘录：<br>
+> 编译正则表达式（编译还是不编译？）<br>
+    在 Core Python Programming 或者即将出版的 Core Python Language Fundamentals 的
+执行环境章节中，介绍了 Python 代码最终如何被编译成字节码，然后在解释器上执行。特
+别是，我们指定 eval()或者 exec（在 2.x 版本中或者在 3.x 版本的 exec()中）调用一个代码
+对象而不是一个字符串，性能上会有明显提升。这是由于对于前者而言，编译过程不会重
+复执行。换句话说，使用预编译的代码对象比直接使用字符串要快，因为解释器在执行字
+符串形式的代码前都必须把字符串编译成代码对象。
+    同样的概念也适用于正则表达式—在模式匹配发生之前，正则表达式模式必须编译
+成正则表达式对象。由于正则表达式在执行过程中将进行多次比较操作，因此强烈建议使
+用预编译。而且，既然正则表达式的编译是必需的，那么使用预编译来提升执行性能无疑
+是明智之举。re.compile()能够提供此功能。
+    其实模块函数会对已编译的对象进行缓存，所以不是所有使用相同正则表达式模
+式的 search()和 match()都需要编译。即使这样，你也节省了缓存查询时间，并且不必
+对于相同的字符串反复进行函数调用。在不同的 Python 版本中，缓存中已编译过的
+正则表达式对象的数目可能不同，而且没有文档记录。purge()函数能够用于清除这些
+缓存。
+
 
 ### re.findall 匹配包含返回列表
 
@@ -34,15 +71,68 @@ re.X	该标志通过给予你更灵活的格式以便你将正则表达式写得
 
 **功能：** 扫描整个字符串返回结果列表，匹配失败返回None<br>
 
+**Demo**:
+```python
+mail='<Darr_en101@mail.com> <Darr_en102@mail.com> Darr_en103@mail.com'
+print(re.findall(r'(\w+@m....[a-z]{3})',mail))    #['Darr_en101@mail.com', 'Darr_en102@mail.com', 'Darr_en103@mail.com']
+```
+
+### re.finditer 匹配包含返回迭代器
+
+**原型:** findall(pattern,string,flags=0)<br>
+
+**功能：** 扫描整个字符串返回迭代器，可防止内存过大现象<br>
+
+**Demo**:
+```python
+mail='<Darr_en101@mail.com> <Darr_en102@mail.com> Darr_en103@mail.com'
+print(next(re.finditer(r'(\w+@m....[a-z]{3})',mail)).group())    #Darr_en101@mail.com
+```
+
 ### re.split  以匹配到的字符当做列表分隔符
 
 **原型:** split(pattern, string, maxsplit=0, flags=0)
 
-**参数：** maxsplitmaxsplit为最多被分割的字符串
+**参数：** maxsplit：最大分割字符串，默认为0，表示每个匹配项都分割
+
+**Demo**:
 ```python
 str ="Darr_en1     is so cool"
 print(re.split(r' +',str))   #['Darr_en1', 'is', 'so', 'cool']
 print(str.split(' '))        #['Darr_en1', '', '', '', '', 'is', 'so', 'cool']
+```
+### re.sub 替换字符串的匹配项
+
+**原型**： sub(pattern, repl, string, count=0)
+
+**参数：** <br>
+rep1:替换后的字符串<br>
+count：替换个数,默认为0，表示每个匹配项都替换<br>
+
+**功能：** 替换字符串的匹配项，返回str<br>
+
+**Demo**:
+```python
+str="Darr_en1 is so cool"
+print(re.sub(r'\s','-',str))    #Darr_en1-is-so-cool
+print(re.sub(r'\s','-',str,2))  #Darr_en1-is-so cool
+```
+
+### re.subn 替换字符串的匹配项
+
+**原型**： subn(pattern, repl, string, count=0)
+
+**参数：** <br>
+rep1:替换后的字符串<br>
+count：替换个数,默认为0，表示每个匹配项都替换<br>
+
+**功能：** 替换字符串的匹配项，返回tuple,第一个值为被替换的str，第二个值为被替换次数<br>
+
+**Demo**:
+```python
+str="Darr_en1 is so cool"
+print(re.subn(r'\s','-',str))    #('Darr_en1-is-so-cool', 3)
+print(re.subn(r'\s','-',str,2))  #('Darr_en1-is-so cool', 2)
 ```
 <br>
 
