@@ -52,6 +52,12 @@ print(re.search('arr', 'www.Darr_en1.com').group())  #arr
 &emsp;&emsp;同样的概念也适用于正则表达式—在模式匹配发生之前，正则表达式模式必须编译成正则表达式对象。由于正则表达式在执行过程中将进行多次比较操作，因此强烈建议使用预编译。而且，既然正则表达式的编译是必需的，那么使用预编译来提升执行性能无疑是明智之举。re.compile()能够提供此功能。<br>
 &emsp;&emsp;其实模块函数会对已编译的对象进行缓存，所以不是所有使用相同正则表达式模式的 search()和 match()都需要编译。即使这样，你也节省了缓存查询时间，并且不必对于相同的字符串反复进行函数调用。在不同的 Python 版本中，缓存中已编译过的正则表达式对象的数目可能不同，而且没有文档记录。purge()函数能够用于清除这些缓存。<br>
 
+**Demo**:
+```python
+re_obj = re.compile("www")
+print(re_obj.match('www.Darr_en1.com').group())   #www
+```
+
 ### re.findall 匹配包含返回列表
 
 **原型:** findall(pattern,string,flags=0)<br>
@@ -120,6 +126,22 @@ count：替换个数,默认为0，表示每个匹配项都替换<br>
 str="Darr_en1 is so cool"
 print(re.subn(r'\s','-',str))    #('Darr_en1-is-so-cool', 3)
 print(re.subn(r'\s','-',str,2))  #('Darr_en1-is-so cool', 2)
+```
+
+### group() groups()       分组
+
+**功能：** 通过()来进行分组，group(n)返回第n个值,groups()返回tuple<br>
+
+**Demo**:
+```python
+str="Darr_en1-is-so-cool"
+print(re.findall(r'(\w+)(-)',str))           #[('Darr_en1', '-'), ('is', '-'), ('so', '-')]
+print(re.findall(r'\w+-',str))               #['Darr_en1-', 'is-', 'so-']
+print(re.match(r'(\w+)(-)',str).group())     # Darr_en1-
+print(re.match(r'(\w+)(-)',str).group(0))    # Darr_en1-
+print(re.match(r'(\w+)(-)',str).group(1))    # Darr_en1
+print(re.match(r'(\w+)(-)',str).group(2))    # -
+print(re.match(r'(\w+)(-)',str).groups())    # ('Darr_en1', '-')
 ```
 <br>
 
