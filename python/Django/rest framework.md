@@ -7,6 +7,67 @@
 通过model作映射，关联model中对象.
 <br>
 
+### Serializer的嵌套，包含
+#### example
+request post请求json数据格式
+```python
+{
+    'device_label': "device01",
+    'cabinet': 10,
+    "description": "description01",
+    "temperatures":[
+        {
+            "record_datetime": "2018_08_10_19_25_40",
+            "temperature": 31.56
+        },
+        {
+            "record_datetime": "2018_08_10_19_25_51",
+            "temperature": 24.23
+        }
+    ]
+}
+```
+model.py
+```python
+class DeviceTemperature(models.Model):
+    class Meta:
+        permissions = (
+            ("view_devicetemperature", "Can view device temperature"),
+        )
+
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    cabinet = models.ForeignKey(Cabinet, on_delete=models.CASCADE)
+    description = models.CharField(max_length=50)
+    record_datetime = models.DateTimeField(default=timezone.now)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+```
+serializer.py
+```python
+class DeviceTemperatureSerializer(serializers.ModelSerializer):
+    record_datetime = serializers.DateTimeField(
+        input_formats=['%Y_%m_%d_%H_%M_%S']
+    )
+    class Meta:
+        model = DeviceTemperature
+        fields = (
+            'record_datetime',
+            'temperature'
+        )
+        
+class CreateDeviceTempSerializer(serializers.Serializer):
+    device_label = serializers.SlugRelatedField(
+        queryset=Device.objects.all(),
+        slug_field='device_label'
+    )
+    cabinet = serializers.PrimaryKeyRelatedField(
+        queryset=Cabinet.objects.all()
+    )
+    description = serializers.CharField(max_length=50)
+    temperatures = DeviceTemperatureSerializer(many=True)
+```
+
+
+
 ## view 
 from Django class
 
@@ -43,4 +104,3 @@ from drf extends APIView<br>
 
 ### viewSets  Router
 viewsSets完成状态建模和API交互，把URL的创建过程依照通用的规范留给框架自动去完成。将视图集注册到Router
-
