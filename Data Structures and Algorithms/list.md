@@ -12,6 +12,13 @@
 单向链表(单链表)是链表的一种，它由节点组成，每个节点都包含下一个节点的指针。<br>
 单链表的特点是：节点的链接方向是单向的；相对于数组来说，单链表的的随机访问速度较慢，但是单链表删除/添加数据的效率很高。<br>
 <br>
+```java
+public class SingleLinkedListNode {
+    int val;
+    SingleLinkedListNode next;
+    SingleLinkedListNode(int x) { val = x; }
+}
+```
 缺陷：在最后的位置删除一个节点 倒数第二个节点需要将其next链设为null.在最后的位置添加一个节点 该节点需要将其next链设为null.<br>
 
 ### 双向链表
