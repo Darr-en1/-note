@@ -28,7 +28,7 @@ public class SingleLinkedListNode {
 ##### ArrayList类提供了可增长数组的实现（两倍增长）<br>
 ##### LinkedList类提供了双向链表的实现
 
-### 针对遍历遍历迭代的讨论
+### 针对遍历迭代的讨论
 ```java
 for (String string : list) {
 	if(string=="lis")list.remove(string);   //这个删除需要找到对应索引，效率不高  O(N²)
